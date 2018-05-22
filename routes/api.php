@@ -19,3 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Routes for Club model
 Route::resource('club', 'ClubController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+
+// Routes for Season model
+Route::resource('season', 'SeasonController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
