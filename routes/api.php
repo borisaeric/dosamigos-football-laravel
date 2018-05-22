@@ -22,3 +22,6 @@ Route::resource('club', 'ClubController', ['only' => ['index', 'show', 'store', 
 
 // Routes for Season model
 Route::resource('season', 'SeasonController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
+
+// Nested routes for Season/Match model
+Route::resource('season.match', 'MatchController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
