@@ -16,7 +16,11 @@ class SeasonController extends Controller
      */
     public function index()
     {
-        //
+        // Get all seasons
+        $seasons = Season::all();
+
+        // Return collection of clubs as a resource
+        return SeasonResource::collection($seasons);
     }
 
     /**
@@ -29,7 +33,7 @@ class SeasonController extends Controller
     {
         // Validation, if fails it throws exception
         $request->validate([
-            'name' => 'required|string|min:3|max:20',
+            'name' => 'required|string|unique:seasons|min:3|max:20',
             'club_ids' => 'required|array|between:2,20',
             'club_ids.*' => 'distinct|string|min:1'
         ]);
@@ -60,7 +64,11 @@ class SeasonController extends Controller
      */
     public function show($id)
     {
-        //
+        // Get season
+        $season = Season::findOrFail($id);
+
+        // Return season as a resource
+        return new SeasonResource($season);
     }
 
     /**
@@ -72,7 +80,29 @@ class SeasonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validation, if fails it throws exception
+        $request->validate([
+            'name' => 'required|string|unique:seasons|min:3|max:20',
+            'club_ids' => 'required|array|between:2,20',
+            'club_ids.*' => 'distinct|string|min:1'
+        ]);
+
+        // If club is not found it will throw not found exception
+        foreach($request->club_ids as $club_id) {
+            
+            Club::findOrFail($club_id);
+        }
+
+        $season = Season::findOrFail($id);
+
+        $season->name = $request->input('name');
+        $season->update();
+
+        $clubs = $request->input('club_ids');
+
+        $season->clubs()->sync($clubs);
+
+        return new SeasonResource($season);
     }
 
     /**
@@ -83,6 +113,12 @@ class SeasonController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Get single season with id from route $id
+        $season = Season::findOrFail($id);
+
+        // Try to delete season
+        if($season->delete()) {
+            return response()->json([],204); // Respond with status code 204
+        }
     }
 }
