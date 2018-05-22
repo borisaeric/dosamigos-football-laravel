@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Routes for Club model
+Route::resource('club', 'ClubController', ['only' => ['index', 'show', 'store', 'update', 'destroy']]);
