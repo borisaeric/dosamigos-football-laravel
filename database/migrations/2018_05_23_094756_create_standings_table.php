@@ -18,6 +18,7 @@ class CreateStandingsTable extends Migration
             $table->foreign('club_id')->references('id')->on('clubs')->onDelete('cascade');
             $table->integer('season_id')->unsigned()->nullable();
             $table->foreign('season_id')->references('id')->on('seasons')->onDelete('cascade');
+            $table->integer('played_matches');            
             $table->integer('wins');
             $table->integer('draws');
             $table->integer('losses');

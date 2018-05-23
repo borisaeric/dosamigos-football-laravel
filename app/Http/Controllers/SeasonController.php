@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Season;
 use App\Club;
+use App\Standing;
 use App\Http\Resources\SeasonResource;
 
 class SeasonController extends Controller
@@ -50,6 +51,14 @@ class SeasonController extends Controller
         $season->save();
 
         $clubs = $request->input('club_ids');
+
+        foreach($clubs as $club_id) {
+            $standing = new Standing;
+            $standing->season_id = $season->id;
+            $standing->club_id = $club_id;
+            $standing->init();
+            $standing->save();
+        }
 
         $season->clubs()->sync($clubs);
 
@@ -99,6 +108,14 @@ class SeasonController extends Controller
         $season->update();
 
         $clubs = $request->input('club_ids');
+
+        foreach($clubs as $club_id) {
+            $standing = new Standing;
+            $standing->season_id = $season->id;
+            $standing->club_id = $club_id;
+            $standing->init();
+            $standing->save();
+        }
 
         $season->clubs()->sync($clubs);
 

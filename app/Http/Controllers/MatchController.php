@@ -90,6 +90,7 @@ class MatchController extends Controller
         $match->away_club_score = $away_club_score;
 
         if($match->save()) {
+            $match->add_stats_to_match(1);
             return new MatchResource($match);
         }   
     }
