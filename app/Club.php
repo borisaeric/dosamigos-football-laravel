@@ -21,4 +21,10 @@ class Club extends Model
     {
         return $this->hasManyThrough('App\Match', 'App\Season', 'away_club_id', 'season_id', 'id', 'id');
     }
+
+    // Relationships on model Standing
+    public function standings()
+    {
+        return $this->hasMany('App\Standing');
+    }
 }

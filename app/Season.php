@@ -17,4 +17,10 @@ class Season extends Model
     {
         return $this->hasMany('App\Match');
     }
+
+    // Relationships on model Standing
+    public function standings()
+    {
+        return $this->hasMany('App\Standing');
+    }
 }
